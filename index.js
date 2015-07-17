@@ -1,6 +1,14 @@
 var path = require('path');
 
-var Magic = require('./build/Release/magic');
+var Magic;
+
+try {
+  var os = require('os');
+  var subDir = os.platform() + '-' + os.arch() + '-v8-' + /^(\d+\.\d+)/.exec(process.versions.v8)[1];
+  Magic = require('./bin/' +  subDir + '/magic');
+} catch (ex) {
+  Magic = require('./build/Release/magic');
+}
 
 var fbpath = path.join(__dirname, 'magic', 'magic');
 Magic.setFallback(fbpath);
